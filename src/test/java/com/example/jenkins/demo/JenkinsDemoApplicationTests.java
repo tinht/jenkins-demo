@@ -1,6 +1,9 @@
 package com.example.jenkins.demo;
 
+import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -12,16 +15,32 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.context.WebApplicationContext;
+
+import java.util.Arrays;
 
 @ExtendWith(SpringExtension.class)
-@SpringBootTest
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
 class JenkinsDemoApplicationTests {
 
     @Autowired
+    private WebApplicationContext webApplicationContext;
+
     private MockMvc mockMvc;
+
+    @BeforeEach
+    public void setUp() {
+        mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
+        Arrays.stream(webApplicationContext.getBeanDefinitionNames())
+                .map(name -> webApplicationContext.getBean(name).getClass().getName())
+                .sorted()
+                .forEach(System.out::println);
+    }
 
     @Test
     public void getsAllRides() throws Exception {
