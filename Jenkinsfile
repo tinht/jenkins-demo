@@ -20,7 +20,7 @@ pipeline {
                 publishHTML([allowMissing: false,
                      alwaysLinkToLastBuild: true,
                      keepAll: true,
-                     reportDir: '**/site',
+                     reportDir: 'target/site',
                      reportFiles: 'surefire-report.html',
                      reportName: 'Docs Loadtest Dashboard'
                      ])
