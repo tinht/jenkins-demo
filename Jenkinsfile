@@ -26,7 +26,7 @@ pipeline {
         always {
             echo "${currentBuild.fullDisplayName} - ${env.BUILD_URL}"
             echo "Report saved at ${WORKSPACE}/target/surefire-reports"
-            junit allowEmptyResults: true, testResults: '${WORKSPACE}/target/surefire-reports/*.xml'
+            junit allowEmptyResults: true, testResults: '**/surefire-reports/*.xml'
         }
         
         success {
