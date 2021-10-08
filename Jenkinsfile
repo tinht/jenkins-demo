@@ -24,7 +24,31 @@ pipeline {
     
     post {
         always {
+            def reportPath = "${WORKSPACE}/target/surefire-reports"
+            echo "${currentBuild.fullDisplayName} - ${env.BUILD_URL}""
+            echo "Report saved at ${reportPath}"
             junit 'build/reports/**/*.xml'
+        }
+        
+        success {
+            echo 'I succeeded!'
+             mail to: 'ttsoft.vn@gmail.com',
+                 subject: "Test's finished: ${currentBuild.fullDisplayName}",
+                 body: "Check more detail at ${env.BUILD_URL}"
+        }
+        
+        unstable {
+            echo 'I am unstable :/'
+        }
+        
+        failure {
+            echo 'I failed :('
+        }
+        
+        success  {
+            mail to: 'ttsoft.vn@gmail.com',
+                 subject: "Failed Pipeline: ${currentBuild.fullDisplayName}",
+                 body: "Something is wrong with ${env.BUILD_URL}"
         }
     }
 }
