@@ -26,14 +26,11 @@ pipeline {
         always {
             echo "${currentBuild.fullDisplayName} - ${env.BUILD_URL}"
             echo "Report saved at ${WORKSPACE}/target/surefire-reports"
-            junit 'build/reports/**/*.xml'
+            junit '${WORKSPACE}/target/surefire-reports/*.xml'
         }
         
         success {
             echo 'I succeeded!'
-             mail to: 'ttsoft.vn@gmail.com',
-                 subject: "Test's finished: ${currentBuild.fullDisplayName}",
-                 body: "Check more detail at ${env.BUILD_URL}"
         }
         
         unstable {
@@ -42,9 +39,6 @@ pipeline {
         
         failure {
             echo 'I failed :('
-            mail to: 'ttsoft.vn@gmail.com',
-                 subject: "Failed Pipeline: ${currentBuild.fullDisplayName}",
-                 body: "Something is wrong with ${env.BUILD_URL}"
         }
     }
 }
