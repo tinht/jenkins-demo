@@ -25,7 +25,7 @@ pipeline {
     post {
         always {
             def reportPath = "${WORKSPACE}/target/surefire-reports"
-            echo "${currentBuild.fullDisplayName} - ${env.BUILD_URL}""
+            echo "${currentBuild.fullDisplayName} - ${env.BUILD_URL}"
             echo "Report saved at ${reportPath}"
             junit 'build/reports/**/*.xml'
         }
