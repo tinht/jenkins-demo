@@ -43,9 +43,6 @@ pipeline {
         
         failure {
             echo 'I failed :('
-        }
-        
-        success  {
             mail to: 'ttsoft.vn@gmail.com',
                  subject: "Failed Pipeline: ${currentBuild.fullDisplayName}",
                  body: "Something is wrong with ${env.BUILD_URL}"
